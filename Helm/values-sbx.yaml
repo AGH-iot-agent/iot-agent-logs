@@ -152,11 +152,18 @@ service:
   name: default-service
   # allocateLoadBalancerNodePorts: false
   # externalTrafficPolicy: Local
-  additionalPorts: []
+  additionalPorts:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: metrics
 
 # Additional container ports to open
 # This can allow scraping by prometheus, or exposure to other services
-additionalPorts: []
+additionalPorts:
+  - containerPort: 9090
+    name: metrics
+    protocol: TCP
   # - containerPort: 8001
   #   name: http-admin
   #   protocol: TCP
@@ -187,7 +194,9 @@ globalEnvs: []
 globalEnvsSecondary: []
 
 # A tertiary source for env variables (eg: used for a specific env (eg: dev, or staging))
-extraEnvs: []
+extraEnvs:
+  - name: JWT_SECRET
+    value: "supersecretkey"
 
 # stdin and tty status
 tty: false
